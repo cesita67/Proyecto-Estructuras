@@ -152,7 +152,7 @@ void dar_de_baja_dron_por_num_de_serie(Dron *&principal, string num_serie){
             elim_bitacoras = aux;
         }
     }else{ //* Si el dron a eliminar no posee algun registro de bitácoras
-        cout<<"Dron a eliminar sin bitácoras"<<endl;
+        cout<<"Dron a eliminar sin bitacoras/vuelos registrados"<<endl;
     }
     
     //* Comenzamos a eliminar el Dron como tal
@@ -222,14 +222,14 @@ void buscar_dron_por_num_de_serie(Dron *principal, string num_serie_buscado){
     }
     cout<<"Digitando biracoras del dron registrado"<<endl;
     system("pause");
-    
+    cout<<endl;
     while(actual_bitacora != NULL){
-        cout<<"Bitacora "<<pos_bitacora<<endl;
-        cout<<"ID: "<<actual_bitacora->ID<<endl;
-        cout<<"Fecha del vuelo "<<actual_bitacora->fecha<<endl;
-        cout<<"Duracion: "<<actual_bitacora->duracion<<endl;
-        cout<<"Distancia recorrida (km): "<<actual_bitacora->distancia_recorrida<<endl;
-        cout<<"Objetivo: "<<actual_bitacora->objetivo<<endl;
+        cout<<"-. Bitacora "<<pos_bitacora<<endl;
+        cout<<"-> ID: "<<actual_bitacora->ID<<endl;
+        cout<<"-> Fecha del vuelo "<<actual_bitacora->fecha<<endl;
+        cout<<"-> Duracion: "<<actual_bitacora->duracion<<endl;
+        cout<<"-> Distancia recorrida (km): "<<actual_bitacora->distancia_recorrida<<endl;
+        cout<<"-> Objetivo: "<<actual_bitacora->objetivo<<endl;
         actual_bitacora = actual_bitacora->proxBitacora;
         cout<<endl;
         pos_bitacora++;
@@ -302,7 +302,6 @@ void ordenar_drones_alfabeticamente(Dron *&principal){
         return;
     }
     Dron *lista_drones_ordenados = NULL;
-    int insertaciones = 0;
     while(principal != NULL){
         Dron *sig = principal->proxDron; //* Guardo un puntero que apunte al siguiente de actual
         principal->proxDron = NULL; //* Desconecto el puntero principal
@@ -358,34 +357,45 @@ void mostrar_top_3_drones_por_hora_de_vuelo(Dron *principal){
         cout<<"Imposible realizar la solicitud, existen menos de 3 drones"<<endl;
         return;
     }
-    Dron *actual_dron = principal;
-    Dron *dron_a_imprimir = NULL, *dron_1 = NULL, *dron_2 = NULL;
+    Dron *dron_1 = NULL, *dron_2 = NULL;
     int pos = 1; //* Este contador aumentara cada vez que encuentre un dron con mayor horas de vuelo
-    int tiempo_de_vuelo_actual = 0, tiempo_de_vuelo_mayor = 0; //* EL tiempo de vuelo mayor estara en horas
 
     while(pos <= 3){
+        Dron *actual_dron = principal; // resetear al inicio en cada iteracion
+        Dron *dron_a_imprimir = NULL;
+        int tiempo_de_vuelo_mayor = -1; //* se inicializa en -1 para poder aceptar 0 como valor valido si hay vuelos
+
         while(actual_dron != NULL){
-            tiempo_de_vuelo_actual = calcular_total_de_duracion_minutos(actual_dron);
+            int tiempo_de_vuelo_actual = calcular_total_de_duracion_minutos(actual_dron);
             tiempo_de_vuelo_actual = convertir_minutos_a_horas(tiempo_de_vuelo_actual);
-            if(tiempo_de_vuelo_actual > tiempo_de_vuelo_mayor && actual_dron != dron_1 && actual_dron != dron_2){
+            if(actual_dron != dron_1 && actual_dron != dron_2 && tiempo_de_vuelo_actual > tiempo_de_vuelo_mayor){
                 tiempo_de_vuelo_mayor = tiempo_de_vuelo_actual; //* Actualizo la variable de tiempo de vuelo mayor
                 dron_a_imprimir = actual_dron;
             }
             actual_dron = actual_dron->proxDron;
         }
-        cout<<"Top numero "<<pos<<endl;
-        cout<<"Modelo: "<<dron_a_imprimir->modelo<<endl;
-        cout<<"Numero de serie: "<<dron_a_imprimir->num_serie<<endl;
-        cout<<"Tipo de dron: "<<dron_a_imprimir->tipo<<endl;
-        cout<<"Estado: "<<dron_a_imprimir->estado<<endl;
+
+        // Si no se encontro ningun dron con bitacoras (o todos tienen 0 horas) en la primera posicion, informar y salir
+        if(dron_a_imprimir == NULL || tiempo_de_vuelo_mayor <= 0){
+            if(pos == 1){
+                cout<<"Ningun dron tiene vuelos registrados."<<endl;
+            }
+            break;
+        }
+
+        cout<<".- Top numero "<<pos<<endl;
+        cout<<"-> Modelo: "<<dron_a_imprimir->modelo<<endl;
+        cout<<"-> Numero de serie: "<<dron_a_imprimir->num_serie<<endl;
+        cout<<"-> Tipo de dron: "<<dron_a_imprimir->tipo<<endl;
+        cout<<"-> Estado: "<<dron_a_imprimir->estado<<endl;
+        cout<<"-> Horas de vuelo: "<<tiempo_de_vuelo_mayor<<" horas"<<endl;
+
         if(pos == 1){
             dron_1 = dron_a_imprimir;
         }
-        if(pos == 2){
+        else if(pos == 2){
             dron_2 = dron_a_imprimir;
         }
-        actual_dron = principal;
-        tiempo_de_vuelo_mayor = 0;
         pos++;
     }
 }
@@ -458,6 +468,7 @@ void eliminar_vuelo(Dron *&principal, string num_serie, string ID){
         prev_bitacora->proxBitacora = actual_bitacora->proxBitacora;
         delete actual_bitacora;
     }
+    cout<<"Bitacora/registro de vuelo con ID "<<ID<<" eliminada exitosamente del dron con numero de serie "<<num_serie<<endl;
 }
 
 //* Requerimiento 10) Consultar vuelo mas largo
@@ -548,19 +559,20 @@ void llenar_datos_dron(Dron *&principal){
     string modelo, num_serie, tipo, estado;
     cout<<"Digite la cantidad de drones: "<<endl;
     cin>>cantidad;
+    cin.ignore(); //* Se limpia el buffer
     while(i != cantidad){
-        cout<<"-- Digite datos del dron numero "<<i+1<<"--"<<endl;
+        cout<<"-- Digite datos del dron numero "<<i+1<<" --"<<endl;
         cout<<"Modelo: ";
-        cin>>modelo;
+        getline(cin, modelo);
         cout<<"Numero de serie: ";
-        cin>>num_serie;
+        getline(cin, num_serie);
         cout<<"Tipo de dron: ";
-        cin>>tipo;
+        getline(cin, tipo);
         cout<<"Estado: ";
-        cin>>estado;
+        getline(cin, estado);
         agregar_dron_de_ultimo(principal, modelo, num_serie, tipo, estado);
         i++;
-
+        cout<<endl;
     }
 }
 
@@ -580,7 +592,7 @@ int main(){
         cout<<"5- Ordenar drones"<<endl;
         cout<<"6- Mostrar top 3 drones por horas de vuelo"<<endl;
         cout<<"7- Mostrar reporte de mantenimiento"<<endl;
-        cout<<"8- Registrar vuelo"<<endl;
+        cout<<"8- Registrar vuelo/bitacora"<<endl;
         cout<<"9- Eliminar vuelo registrado/bitacora"<<endl;
         cout<<"10- Consultar vuelo/bitacora mas largo"<<endl;
         cout<<"11- Buscar vuelo/bitacora por objetivo"<<endl;
@@ -637,22 +649,22 @@ int main(){
         else if(opc == 8){
             cin.ignore();
             cout<<"Digite el numero de serie del dron a agregar la bitacora/registro de vuelo: ";
-            getline(cin, num_serie_dron); cout<<endl;
+            cin>>num_serie_dron; cout<<endl;
             if(esta_dron(principal, num_serie_dron) == false){
                 cout<<"No se encontro el dron con numero de serie: "<<num_serie_dron<<endl;
             }else{
                 cin.ignore();
                 cout<<"--Digite datos de la bitacora/registro de vuelo-- "<<endl;
                 cout<<"ID de vuelo: ";
-                cin>>ID;
+                getline(cin, ID);
                 cout<<"Fecha del vuelo: ";
-                cin>>fecha;
-                cout<<"Duracion: ";
+                getline(cin, fecha);
+                cout<<"Duracion (minutos): ";
                 cin>>duracion;
-                cout<<"Distancia recorrida: ";
-                cin>>distancia_recorrida;
+                cout<<"Distancia recorrida (km): ";
+                cin>>distancia_recorrida; cin.ignore();
                 cout<<"Objetivo: ";
-                cin>>objetivo;
+                getline(cin, objetivo);
                 agregar_bitacora_de_ultimo(principal, num_serie_dron, ID, fecha, duracion, distancia_recorrida, objetivo);
             }
             system("pause"); system("cls");
@@ -660,13 +672,13 @@ int main(){
         else if(opc == 9){
             cin.ignore();
             cout<<"Digite el numero de serie del dron a eliminar una bitacora de la base de datos: ";
-            cin>>num_serie_dron; cout<<endl;
+            getline(cin, num_serie_dron); cout<<endl;
             if(esta_dron(principal, num_serie_dron) == false){
                 cout<<"No se encontro el dron con numero de serie: "<<num_serie_dron<<endl;
             }
             else{
                 cout<<"Digite el ID de la bitacora/registro de vuelo a eliminar: ";
-                cin>>ID;
+                getline(cin, ID);
                 eliminar_vuelo(principal, num_serie_dron, ID);
             }
             system("pause"); system("cls");
@@ -674,23 +686,23 @@ int main(){
         else if(opc == 10){
             cin.ignore();
             cout<<"Digite el numero de serie del dron: ";
-            cin>>num_serie_dron; cout<<endl;
+            getline(cin, num_serie_dron); cout<<endl;
             mostrar_vuelo_mas_largo(principal, num_serie_dron);
             system("pause"); system("cls");
         }
         else if(opc == 11){
             cin.ignore();
             cout<<"Digite el numero de serie del dron: ";
-            cin>>num_serie_dron; cout<<endl;
+            getline(cin, num_serie_dron); cout<<endl;
             cout<<"Digite el objetivo de la bitacora/registro de vuelo a buscar: ";
-            cin>>objetivo; cout<<endl;
+            getline(cin, objetivo); cout<<endl;
             buscar_si_existe_bitacora_con_un_objetivo(principal, num_serie_dron, objetivo);
             system("pause"); system("cls");
         }
         else if(opc == 12){
             cin.ignore();
             cout<<"Digite el numero de serie del dron a calcular: ";
-            cin>>num_serie_dron; cout<<endl;
+            getline(cin, num_serie_dron); cout<<endl;
             calcular_totales_de_un_dron(principal, num_serie_dron);
             system("pause"); system("cls");
         }
@@ -706,18 +718,20 @@ int main(){
 
     Dron *elim = principal;
     if(principal != NULL){
-        Bitacora *elim_bitacora = principal->lista_bitacoras;        
         while(elim != NULL){
-            while(elim_bitacora !=NULL){
-                principal->lista_bitacoras = principal->lista_bitacoras->proxBitacora;
+            // Liberar todas las bitacoras del dron actual
+            Bitacora *elim_bitacora = elim->lista_bitacoras;
+            while(elim_bitacora != NULL){
+                Bitacora *next_bit = elim_bitacora->proxBitacora;
                 delete elim_bitacora;
-                elim_bitacora = principal->lista_bitacoras;
+                elim_bitacora = next_bit;
             }
-            principal = principal->proxDron;
+            // Avanzar al siguiente dron y borrar el actual
+            Dron *next_dron = elim->proxDron;
             delete elim;
-            elim = principal;
-            elim_bitacora = principal->lista_bitacoras;
+            elim = next_dron;
         }
+        principal = NULL;
         cout<<"Memoria liberada..."<<endl;
     }
 
