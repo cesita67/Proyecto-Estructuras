@@ -141,7 +141,7 @@ int calcular_total_de_distancias(Dron *actual){
 void agregar_dron_de_ultimo(Dron *&principal, string modelo, string num_serie, string tipo, string estado){
     Dron *nuevo_dron = Crear_dron(modelo, num_serie, tipo, estado), *actual = principal;
     if(esta_dron(principal, num_serie)){
-        cout<<ROJO<<NEGRITA<<"ERROR. El numero de serie ya se encuentra registrado en otro dron"<< RESET<<endl;
+        cout<<ROJO<<NEGRITA<<"ERROR. El n"<<char(163)<<"mero de serie ya se encuentra registrado en otro dron"<< RESET<<endl;
         return;
     }
     if(lista_vacia_drones(principal)){
@@ -187,7 +187,7 @@ void dar_de_baja_dron_por_num_de_serie(Dron *&principal, string num_serie){
         }
     }
     if(encontrado == false){
-        cout << ROJO << NEGRITA << "No existe un dron con numero de serie " << num_serie << "..." << RESET << endl;
+        cout << ROJO << NEGRITA << "No existe un dron con n"<<char(163)<<"mero de serie " << num_serie << "..." << RESET << endl;
         return;
     }
     
@@ -200,7 +200,7 @@ void dar_de_baja_dron_por_num_de_serie(Dron *&principal, string num_serie){
             elim_bitacoras = aux;
         }
     }else{ //* Si el dron a eliminar no posee algun registro de bitácoras
-        cout << AMARILLO << "Dron a eliminar sin bitacoras/vuelos registrados" << RESET << endl;
+        cout << AMARILLO << "Dron a eliminar sin bit"<<char(160)<<"coras/vuelos registrados" << RESET << endl;
     }
     
     //* Se comienza a eliminar el dron como tal
@@ -253,14 +253,14 @@ void buscar_dron_por_num_de_serie(Dron *principal, string num_serie_buscado){
         i++;
     }
     if(actual == NULL){
-        cout << ROJO << NEGRITA << "No se encontro el dron con numero de serie " << num_serie_buscado << " en la base de datos" << RESET << endl;
+        cout << ROJO << NEGRITA << "No se encontr"<<char(162)<<" el dron con numero de serie " << num_serie_buscado << " en la base de datos" << RESET << endl;
         return;
     }
-    cout << VERDE << NEGRITA << "OK Dron exitosamente encontrado en la posicion " << i << RESET << endl;
+    cout << VERDE << NEGRITA << "OK Dron exitosamente encontrado en la posici"<<char(162)<<"n " << i << RESET << endl;
     cout << AZUL << NEGRITA << "====================" << RESET << endl;
     cout << AZUL << NEGRITA << "| Datos del Dron " << i << " |" << RESET << endl;
     cout << AZUL << "| Modelo: " << actual->modelo << " |" << RESET << endl;
-    cout << AZUL << "| Numero de serie: " << actual->num_serie << " |" << RESET << endl;
+    cout << AZUL << "| N"<<char(163)<<"mero de serie: " << actual->num_serie << " |" << RESET << endl;
     cout << AZUL << "| Tipo de Dron: " << actual->tipo << " |" << RESET << endl;
     cout << (actual->estado == "Operativo" ? VERDE : ROJO) << "| Estado: " << actual->estado << " |" << RESET << endl;
     cout << AZUL << "====================" << RESET << endl;
@@ -275,10 +275,10 @@ void buscar_dron_por_num_de_serie(Dron *principal, string num_serie_buscado){
     system("pause");
     cout << endl;
     while(actual_bitacora != NULL){
-        cout << VERDE << "--> Bitacora " << pos_bitacora << RESET << endl;
+        cout << VERDE << "--> Bit"<<char(160)<<"cora " << pos_bitacora << RESET << endl;
         cout << "  ID: " << actual_bitacora->ID << endl;
         cout << "  Fecha del vuelo: " << actual_bitacora->fecha << endl;
-        cout << "  Duracion: " << actual_bitacora->duracion << " minutos" << endl;
+        cout << "  Duraci"<<char(162)<<"n: " << actual_bitacora->duracion << " minutos" << endl;
         cout << "  Distancia recorrida: " << actual_bitacora->distancia_recorrida << " km" << endl;
         cout << "  Objetivo: " << actual_bitacora->objetivo << endl;
         cout << VERDE << "----------------------------------------" << RESET << endl;
@@ -375,7 +375,7 @@ void mostrar_top_3_drones_por_hora_de_vuelo(Dron *principal){
 
         cout << FONDO_AMARILLO << BLANCO << NEGRITA << "TOP " << pos << RESET << endl;
         cout << VERDE << "- Modelo: " << dron_a_imprimir->modelo << RESET << endl;
-        cout << VERDE << "- Numero de serie: " << dron_a_imprimir->num_serie << RESET << endl;
+        cout << VERDE << "- N"<<char(163)<<"mero de serie: " << dron_a_imprimir->num_serie << RESET << endl;
         cout << VERDE << "- Tipo de dron: " << dron_a_imprimir->tipo << RESET << endl;
         cout << VERDE << "- Estado: " << dron_a_imprimir->estado << RESET << endl;
         cout << VERDE << "- Horas de vuelo: " <<fixed<<setprecision(2)<< tiempo_de_vuelo_mayor << " horas" << RESET << endl;
@@ -406,7 +406,7 @@ void reporte_de_mantenimiento(Dron *principal, float horas_de_vuelo){
         duraciones_de_dron = convertir_minutos_a_horas(duraciones_de_dron);
         if((actual_dron->estado == "Operativo" || actual_dron->estado == "operativo") && duraciones_de_dron > horas_de_vuelo){
             se_requiere_mantenimiento = true;
-            cout << ROJO << NEGRITA << "ATENCION: Se sugiere hacer mantenimiento al dron numero " << pos_dron << RESET << endl;
+            cout << ROJO << NEGRITA << "ATENCI"<<char(224)<<"N: Se sugiere hacer mantenimiento al dron numero " << pos_dron << RESET << endl;
             cout << "   Modelo: " << actual_dron->modelo << " | Horas de vuelo: " << duraciones_de_dron << endl;
         }
         pos_dron++;
@@ -426,7 +426,7 @@ void agregar_bitacora_de_ultimo(Dron *&principal, string num_serie, string ID, s
     //* Primero buscamos el dron segun su numero de serie para despues para agregar la bitacora 
     Dron *dron_para_agregar_bitacora = dron_por_num_de_serie(principal, num_serie);
     if(dron_para_agregar_bitacora == NULL){
-        cout << ROJO << NEGRITA << "No se pudo agregar la bitacora (registro de vuelo) porque no existe un dron con numero de serie " << num_serie << " en la base de datos" << RESET << endl;
+        cout << ROJO << NEGRITA << "No se pudo agregar la bit"<<char(160)<<"cora (registro de vuelo) porque no existe un dron con numero de serie " << num_serie << " en la base de datos" << RESET << endl;
         return;
     }
 
@@ -441,7 +441,7 @@ void agregar_bitacora_de_ultimo(Dron *&principal, string num_serie, string ID, s
         actual_bitacora = actual_bitacora->proxBitacora;
     }
     actual_bitacora->proxBitacora = nueva_bitacora;
-    cout << VERDE << NEGRITA << "OK Bitacora agregada exitosamente al dron " << num_serie << RESET << endl;
+    cout << VERDE << NEGRITA << "OK Bit"<<char(160)<<"cora agregada exitosamente al dron " << num_serie << RESET << endl;
 }
 
 //* Requerimiento 9) Eliminar vuelo/ bitacora segun su ID
@@ -452,7 +452,7 @@ void eliminar_vuelo(Dron *&principal, string num_serie, string ID){
     }
     Dron *dron_a_eliminar_su_bitacora = dron_por_num_de_serie(principal, num_serie);
     if(dron_a_eliminar_su_bitacora == NULL){
-        cout << ROJO << NEGRITA << "No se encontro el dron a eliminar su vuelo o bitacora" << RESET << endl;
+        cout << ROJO << NEGRITA << "No se encontr"<<char(162)<<" el dron a eliminar su vuelo o bit"<<char(160)<<"cora" << RESET << endl;
         return;
     }
     Bitacora *actual_bitacora = dron_a_eliminar_su_bitacora->lista_bitacoras, *prev_bitacora = NULL;
@@ -467,7 +467,7 @@ void eliminar_vuelo(Dron *&principal, string num_serie, string ID){
         }
     }
     if(encontrado == false){
-        cout << ROJO << NEGRITA << "No se encontro la bitacora/registro de vuelo con ID " << ID << " en el dron con numero de serie " << num_serie << RESET << endl;
+        cout << ROJO << NEGRITA << "No se encontr"<<char(162)<<" la bit"<<char(160)<<"cora/registro de vuelo con ID " << ID << " en el dron con numero de serie " << num_serie << RESET << endl;
         return;
     }
 
@@ -478,7 +478,7 @@ void eliminar_vuelo(Dron *&principal, string num_serie, string ID){
         prev_bitacora->proxBitacora = actual_bitacora->proxBitacora;
         delete actual_bitacora;
     }
-    cout << VERDE << NEGRITA << "OK Bitacora/registro de vuelo con ID " << ID << " eliminada exitosamente del dron con numero de serie " << num_serie << RESET << endl;
+    cout << VERDE << NEGRITA << "OK Bitacora/registro de vuelo con ID " << ID << " eliminada exitosamente del dron con n"<<char(163)<<"mero de serie " << num_serie << RESET << endl;
 }
 
 //* Requerimiento 10) Consultar vuelo mas largo
@@ -489,7 +489,7 @@ void mostrar_vuelo_mas_largo(Dron *&principal, string num_serie){
     }
     Dron *dron_buscado = dron_por_num_de_serie(principal, num_serie);
     if(dron_buscado == NULL){
-        cout << ROJO << NEGRITA << "No se encontro el dron solicitado en la base de datos" << RESET << endl;
+        cout << ROJO << NEGRITA << "No se encontr"<<char(162)<<" el dron solicitado en la base de datos" << RESET << endl;
         return;
     }
     Bitacora *actual_bitacora = dron_buscado->lista_bitacoras, *bitacora_a_imprimir = NULL; //* Primero creamos un puntero bitacora auxiliar para recorrer toda la lista de bitacoras y determinar cual es la bitacora con mayor duracion
@@ -505,13 +505,13 @@ void mostrar_vuelo_mas_largo(Dron *&principal, string num_serie){
         pos_bitacora++; 
     } 
     if(duracion_mayor <= 0.0){
-        cout << AMARILLO << "Ninguna bitacora tiene duracion alguna..." << RESET << endl;
+        cout << AMARILLO << "Ninguna bit"<<char(160)<<"cora tiene duraci"<<char(162)<<"n alguna..." << RESET << endl;
         return;
     }
-    cout << VERDE << NEGRITA << "VUELO MAS LARGO - Bitacora " << pos_bitacora_buscada << RESET << endl;
+    cout << VERDE << NEGRITA << "VUELO MAS LARGO - Bit"<<char(160)<<"cora " << pos_bitacora_buscada << RESET << endl;
     cout << CYAN << "- ID del vuelo: " << bitacora_a_imprimir->ID << RESET << endl;
     cout << CYAN << "- Fecha del vuelo: " << bitacora_a_imprimir->fecha << RESET << endl;
-    cout << CYAN << "- Duracion: " << bitacora_a_imprimir->duracion << " minutos" << RESET << endl; // Duracion ahora es float
+    cout << CYAN << "- Duraci"<<char(162)<<"n: " << bitacora_a_imprimir->duracion << " minutos" << RESET << endl; // Duracion ahora es float
     cout << CYAN << "- Distancia recorrida: " << bitacora_a_imprimir->distancia_recorrida << " km" << RESET << endl;
     cout << CYAN << "- Objetivo: " << bitacora_a_imprimir->objetivo << RESET << endl;
 }
@@ -524,7 +524,7 @@ void buscar_si_existe_bitacora_con_un_objetivo(Dron *principal, string num_serie
     }
     Dron *dron_buscado = dron_por_num_de_serie(principal, num_serie);
     if(dron_buscado == NULL){
-        cout << ROJO << NEGRITA << "No se encontro el dron solicitado en la base de datos" << RESET << endl;
+        cout << ROJO << NEGRITA << "No se encontr"<<char(162)<<" el dron solicitado en la base de datos" << RESET << endl;
         return;
     }
     Bitacora *actual_bitacora = dron_buscado->lista_bitacoras;
@@ -539,9 +539,9 @@ void buscar_si_existe_bitacora_con_un_objetivo(Dron *principal, string num_serie
         }
     }
     if(encontrado == false){
-        cout << ROJO << "No se encontro un vuelo registrado/bitacora con el objetivo (" << objetivo_buscado << ")" << RESET << endl;
+        cout << ROJO << "No se encontr"<<char(162)<<" un vuelo registrado/bitacora con el objetivo (" << objetivo_buscado << ")" << RESET << endl;
     }else{
-        cout << VERDE << NEGRITA << "OK Se ha encontrado un vuelo registrado/bitacora con objetivo (" << objetivo_buscado << ") en la posicion " << pos_bitacora_buscada << RESET << endl;
+        cout << VERDE << NEGRITA << "OK se ha encontrado un vuelo registrado/bitacora con objetivo (" << objetivo_buscado << ") en la posicion " << pos_bitacora_buscada << RESET << endl;
     }
 }
 
@@ -553,14 +553,14 @@ void calcular_totales_de_un_dron(Dron *&principal, string num_serie){
     }
     Dron *dron_buscado = dron_por_num_de_serie(principal, num_serie);
     if(dron_buscado == NULL){
-        cout << ROJO << NEGRITA << "No se encontro el dron solicitado en la base de datos" << RESET << endl;
+        cout << ROJO << NEGRITA << "No se encontr"<<char(162)<<" el dron solicitado en la base de datos" << RESET << endl;
         return;
     }
     //* Se calcula la suma de distancias y la suma de duraciones con las funciones correspondientes
     int suma_de_distancias = calcular_total_de_distancias(dron_buscado);
     float suma_de_duraciones = calcular_total_de_duracion_minutos(dron_buscado); 
     cout << AZUL << NEGRITA << "================================" << RESET << endl;
-    cout << AZUL << NEGRITA << "|   ESTADISTICAS DEL DRON   |" << RESET << endl;
+    cout << AZUL << NEGRITA << "|   ESTAD"<<char(214)<<"STICAS DEL DRON   |" << RESET << endl;
     cout << AZUL << NEGRITA << "================================" << RESET << endl;
     cout << AZUL << "| Modelo: " << dron_buscado->modelo << string(15 - dron_buscado->modelo.length(), ' ') << "|" << RESET << endl;
     cout << AZUL << "| Tiempo total de vuelo: " << suma_de_duraciones << " min" << "|" << RESET << endl; 
@@ -577,12 +577,13 @@ void reporte_de_eficiencia(Dron *&principal){
         return;
     }
     Dron *actual_Dron = principal;
-    int pos = 1, efectividad_duracion_horas = 0, cantidad_minutos =0, cantidad_distancia= 0;
+    int pos = 1, cantidad_distancia= 0;
+    float cantidad_minutos = 0.0, efectividad_duracion_horas = 0.0;
     while (actual_Dron != NULL){
 
-        cantidad_distancia =calcular_total_de_distancias(actual_Dron);
+        cantidad_distancia = calcular_total_de_distancias(actual_Dron);
         cantidad_minutos = calcular_total_de_duracion_minutos(actual_Dron);
-        if (cantidad_minutos > 0)
+        if (cantidad_minutos > 0.0)
         {
             efectividad_duracion_horas = cantidad_distancia / cantidad_minutos;
             cout<<"El dron con la posicion "<<pos<<" tiene un indice de eficiencia de: "<< efectividad_duracion_horas<<endl;
@@ -615,7 +616,7 @@ void guardar_en_archivo_txt(Dron *principal) {
         while (actual != NULL) {
             archivo_salida << "DRON #" << contador_dron << "\n";
             archivo_salida << "Modelo: " << actual->modelo << "\n";
-            archivo_salida << "Numero de serie: " << actual->num_serie << "\n";
+            archivo_salida << "N"<<char(163)<<"mero de serie: " << actual->num_serie << "\n";
             archivo_salida << "Tipo: " << actual->tipo << "\n";
             archivo_salida << "Estado: " << actual->estado << "\n";
             archivo_salida << "VUELOS REGISTRADOS\n";
@@ -631,7 +632,7 @@ void guardar_en_archivo_txt(Dron *principal) {
                     archivo_salida << "VUELO #" << contador_vuelo << "\n";
                     archivo_salida << "  ID: " << actual_bitacora->ID << "\n";
                     archivo_salida << "  Fecha: " << actual_bitacora->fecha << "\n";
-                    archivo_salida << "  Duracion: " << actual_bitacora->duracion << " minutos\n";
+                    archivo_salida << "  Duraci"<<char(162)<<"n: " << actual_bitacora->duracion << " minutos\n";
                     archivo_salida << "  Distancia: " << actual_bitacora->distancia_recorrida << " km\n";
                     archivo_salida << "  Objetivo: " << actual_bitacora->objetivo << "\n";
                     
@@ -655,7 +656,7 @@ void guardar_en_archivo_txt(Dron *principal) {
 void cargar_desde_archivo_txt(Dron *&principal) {
     ifstream archivo_entrada("reportedrones.txt");
     if (!archivo_entrada.is_open()) {
-        cout << AMARILLO << "No se encontró archivo de datos. Se iniciará con lista vacía." << RESET << endl;
+        cout << AMARILLO << "No se encontr"<<char(162)<<" archivo de datos. Se iniciar"<<char(160)<<" con lista vac"<<char(161)<<"a." << RESET << endl;
         return;
     }
 
@@ -896,7 +897,7 @@ int main(){
     do{
         
         cout << MAGENTA << NEGRITA << "========================================" << RESET << endl;
-        cout << MAGENTA << NEGRITA << "|     SISTEMA DE GESTIÓN DE DRONES    |" << RESET << endl;
+        cout << MAGENTA << NEGRITA << "|     SISTEMA DE GESTI"<<char(224)<<"N DE DRONES    |" << RESET << endl;
         cout << MAGENTA << NEGRITA << "========================================" << RESET << endl;
         cout << CYAN << "1" << RESET << "- Agregar dron/es (al final del registro)" << endl;
         cout << CYAN << "2" << RESET << "- Dar de baja un dron " << endl;
@@ -905,20 +906,20 @@ int main(){
         cout << CYAN << "5" << RESET << "- Ordenar drones" << endl;
         cout << CYAN << "6" << RESET << "- Mostrar top 3 drones por horas de vuelo" << endl;
         cout << CYAN << "7" << RESET << "- Mostrar reporte de mantenimiento" << endl;
-        cout << CYAN << "8" << RESET << "- Registrar vuelo/bitacora" << endl;
-        cout << CYAN << "9" << RESET << "- Eliminar vuelo registrado/bitacora" << endl;
-        cout << CYAN << "10" << RESET << "- Consultar vuelo registrado/bitacora con mayor duracion" << endl;
+        cout << CYAN << "8" << RESET << "- Registrar vuelo/bit"<<char(160)<<"cora" << endl;
+        cout << CYAN << "9" << RESET << "- Eliminar vuelo registrado/bit"<<char(160)<<"cora" << endl;
+        cout << CYAN << "10" << RESET << "- Consultar vuelo registrado/bitacora con mayor duraci"<<char(162)<<"n" << endl;
         cout << CYAN << "11" << RESET << "- Buscar vuelo/bitacora por objetivo" << endl;
         cout << CYAN << "12" << RESET << "- Calcular el tiempo y distancia total de un dron" << endl;
-        cout << CYAN << "13" << RESET << "- Calcular el indice de eficiencia de los drones" << endl;
+        cout << CYAN << "13" << RESET << "- Calcular el "<<char(161)<<"ndice de eficiencia de los drones" << endl;
         cout << CYAN << "14" << RESET << "- Leer archivo txt" << endl;
 
-        cout << ROJO << "0" << RESET << "- Salir y guardar informacion en un archivo" << endl;
+        cout << ROJO << "0" << RESET << "- Salir y guardar informaci"<<char(162)<<"n en un archivo txt" << endl;
         
         while(opcion_valida == false){
-            cout << AMARILLO << NEGRITA << "\n>> Digite una opcion: " << RESET;
+            cout << AMARILLO << NEGRITA << "\n>> Digite una opci"<<char(162)<<"n: " << RESET;
             if(!(cin>>opc)){
-                cout << ROJO << "ERROR: Debe digitar un numero de 0-13" << RESET << endl;
+                cout << ROJO << "ERROR: Debe digitar un n"<<char(163)<<"mero de 0-13" << RESET << endl;
                 cin.clear();
                 cin.ignore(1000, '\n');
             }
@@ -934,7 +935,7 @@ int main(){
         }
         else if(opc == 2){
             cin.ignore();
-            cout << AMARILLO << "Digite el numero de serie del dron que desea dar de baja: " << RESET;
+            cout << AMARILLO << "Digite el n"<<char(163)<<"mero de serie del dron que desea dar de baja: " << RESET;
             getline(cin, num_serie_dron); cout<<endl;
             dar_de_baja_dron_por_num_de_serie(principal, num_serie_dron);
             system("pause"); system("cls");
@@ -945,7 +946,7 @@ int main(){
         }
         else if(opc == 4){
             cin.ignore();
-            cout << AMARILLO << "Digite el numero de serie del dron a buscar: " << RESET;
+            cout << AMARILLO << "Digite el n"<<char(163)<<"mero de serie del dron a buscar: " << RESET;
             getline(cin, num_serie_dron);
             buscar_dron_por_num_de_serie(principal, num_serie_dron);
             system("pause"); system("cls");
@@ -961,7 +962,7 @@ int main(){
         else if(opc == 7){
             cout << AMARILLO << "Digite las horas de vuelo a considerar: " << RESET;
             if(!(cin>>num_horas)){
-                cout << ROJO << "ERROR: Entrada no válida para horas." << RESET << endl;
+                cout << ROJO << "ERROR: Entrada no valida para horas." << RESET << endl;
                 num_horas = 0.0;
                 cin.clear();
                 cin.ignore(1000, '\n');
@@ -972,10 +973,10 @@ int main(){
         }
         else if(opc == 8){
             cin.ignore();
-            cout << AMARILLO << "Digite el numero de serie del dron a agregar la bitacora: " << RESET;
+            cout << AMARILLO << "Digite el n"<<char(163)<<"mero de serie del dron a agregar la bitacora: " << RESET;
             getline(cin, num_serie_dron); cout<<endl;
             if(esta_dron(principal, num_serie_dron) == false){
-                cout << ROJO << "ERROR: No se encontro el dron con numero de serie: " << num_serie_dron << RESET << endl;
+                cout << ROJO << "ERROR: No se encontr"<<char(162)<<" el dron con n"<<char(163)<<"mero de serie: " << num_serie_dron << RESET << endl;
             }else{
                 cout << VERDE << "-- Datos de la bitacora --" << RESET << endl;
                 cout << "| ID de vuelo: ";
@@ -983,9 +984,9 @@ int main(){
                 cout << "| Fecha del vuelo: ";
                 getline(cin, fecha);
                 while(opcion_valida == false){
-                    cout<< "| Duracion (minutos): ";
+                    cout<< "| Duraci"<<char(162)<<"n (minutos): ";
                     if(!(cin>>duracion) || duracion < 0.0){ //* Validacion de la duracion 
-                        cout << ROJO << "ERROR: Debe digitar un numero mayor o igual a 0" << RESET << endl;
+                        cout << ROJO << "ERROR: Debe digitar un n"<<char(163)<<"mero mayor o igual a 0" << RESET << endl;
                         cin.clear();
                         cin.ignore(1000, '\n');
                     }
@@ -997,7 +998,7 @@ int main(){
                 while(opcion_valida == false){
                     cout<< "| Distancia recorrida (km): ";
                     if(!(cin>>distancia_recorrida) || distancia_recorrida < 0){  //* Validacion de la distancia
-                        cout << ROJO << "ERROR: Debe digitar un numero mayor o igual a 0" << RESET << endl;
+                        cout << ROJO << "ERROR: Debe digitar un n"<<char(163)<<"mero mayor o igual a 0" << RESET << endl;
                         cin.clear();
                         cin.ignore(1000, '\n');
                     }
@@ -1016,13 +1017,13 @@ int main(){
         }
         else if(opc == 9){
             cin.ignore();
-            cout << AMARILLO << "Digite el numero de serie del dron: " << RESET;
+            cout << AMARILLO << "Digite el n"<<char(163)<<"mero de serie del dron: " << RESET;
             getline(cin, num_serie_dron); cout<<endl;
             if(esta_dron(principal, num_serie_dron) == false){
-                cout << ROJO << "ERROR: No se encontro el dron con numero de serie: " << num_serie_dron << RESET << endl;
+                cout << ROJO << "ERROR: No se encontr"<<char(162)<<" el dron con numero de serie: " << num_serie_dron << RESET << endl;
             }
             else{
-                cout << AMARILLO << "Digite el ID de la bitacora a eliminar: " << RESET;
+                cout << AMARILLO << "Digite el ID de la bit"<<char(160)<<"cora a eliminar: " << RESET;
                 getline(cin, ID);
                 eliminar_vuelo(principal, num_serie_dron, ID);
             }
@@ -1030,14 +1031,14 @@ int main(){
         }
         else if(opc == 10){
             cin.ignore();
-            cout << AMARILLO << "Digite el numero de serie del dron: " << RESET;
+            cout << AMARILLO << "Digite el n"<<char(163)<<"mero de serie del dron: " << RESET;
             getline(cin, num_serie_dron); cout<<endl;
             mostrar_vuelo_mas_largo(principal, num_serie_dron);
             system("pause"); system("cls");
         }
         else if(opc == 11){
             cin.ignore();
-            cout << AMARILLO << "Digite el numero de serie del dron: " << RESET;
+            cout << AMARILLO << "Digite el n"<<char(163)<<"mero de serie del dron: " << RESET;
             getline(cin, num_serie_dron); cout<<endl;
             cout << AMARILLO << "Digite el objetivo a buscar: " << RESET;
             getline(cin, objetivo); cout<<endl;
@@ -1046,7 +1047,7 @@ int main(){
         }
         else if(opc == 12){
             cin.ignore();
-            cout << AMARILLO << "Digite el numero de serie del dron: " << RESET;
+            cout << AMARILLO << "Digite el n"<<char(163)<<"mero de serie del dron: " << RESET;
             getline(cin, num_serie_dron); cout<<endl;
             calcular_totales_de_un_dron(principal, num_serie_dron);
             system("pause"); system("cls");
@@ -1064,7 +1065,7 @@ int main(){
         else if(opc == 0){
             guardar_en_archivo_txt(principal);
             system("pause"); system("cls");
-            cout << MAGENTA << NEGRITA << "¡Gracias por usar el sistema! Hasta luego..." << RESET << endl;
+            cout << MAGENTA << NEGRITA << ""<<char(173)<<"Gracias por usar el sistema! Hasta luego..." << RESET << endl;
             string mensaje = "¡Gracias por usar el sistema! Hasta luego...";
             string comando;
             int resultado = 0; // Inicializamos resultado
@@ -1085,7 +1086,7 @@ int main(){
         #endif
         cout<<endl;
         }else{
-            cout << ROJO << "ERROR: Opcion incorrecta" << RESET << endl;
+            cout << ROJO << "ERROR: Opci"<<char(162)<<"n incorrecta" << RESET << endl;
             string mensaje = "ERROR: Opcion incorrecta, asegurese que la opcion digitada sea correcta.";
             string comando;
             int resultado = 0; // Inicializamos resultado
